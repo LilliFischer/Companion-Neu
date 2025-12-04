@@ -1,0 +1,26 @@
+.scroll-container {
+    height: 600vh; /* lange Scrollstrecke */
+    position: relative;
+  }
+  
+  .pinned {
+    position: sticky;
+    top: 20px;
+    height: 100vh; /* bleibt immer im Viewport */
+    display: flex;
+    flex-direction: column;
+    gap: 1em; /* Abstand zwischen Punkten */
+  padding: 0 20px;
+    justify-content: center;
+    align-items: center;
+  }
+  /* alle infos übereinander */
+.step {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-align: center;
+  }
+  
+  .step.active {
+    opacity: 1;
+  }

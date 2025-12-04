@@ -7,47 +7,64 @@
     <title>Companion</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">    
     <link rel="stylesheet" href="css/meins.css"> 
-	  <script src="js/meinjs.js"></script>
+    <link rel="stylesheet" href="css/landing.css"> 
+	  <script src="js/mein.js"></script>
   </head>
     
   <body>
-    <header>
-      <h1>Welcome to Companion</h1>
-    </header>
-    
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+    <nav id="permanent-nav">
+        <a href="index.html" class="nav-circle active">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="2" 
+                  d="M3 10V22H21V10L12 3L3 10Z"/>
+        </svg>
+        </a>
+        <a href="credits.html" class="nav-circle">
+          <svg class="icon" viewBox="0 0 24 24">
+            <path fill="none" stroke="currentColor" stroke-width="2" 
+                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+        </svg>
+        </a>
     </nav>
     
-    <main>
-      <section id="home">
-        <h2>Home</h2>
-        <p>This is the home section of the Companion website.</p>
-      </section>
-      
-      <section id="about">
-        <h2>About</h2>
-        <p>This section provides information about Companion.</p>
-      </section>
-      
-      <section id="services">
-        <h2>Services</h2>
-        <p>Details about the services offered by Companion can be found here.</p>
-      </section>
-      
-      <section id="contact">
-        <h2>Contact</h2>
-        <p>Get in touch with us through this section.</p>
-      </section>
-    </main>
+  <main>
     
-    <footer>
-      <p>&copy; 2024 Companion. All rights reserved.</p>
-    </footer>
+    <section id="stage1">
+      <header id="main-header" class="initial-hidden">
+        <h1>
+          <l>Your</l>
+          <l>Companion</l>
+        </h1>
+      </header>
+    </section>
+
+    <section id="stage2">
+      <div id="explanation-box" class="scroll-hidden">
+          <h2>Willkommen bei Compagnien.</h2>
+          <p>Wische oder scrolle, um die queer-feministische Collage zu erkunden. Gehe auf die Vitrinen, um die Geschichten zu enthüllen.</p>
+      </div>
+    </section>
+
+    <section id="stage3">
+      <div class="vitrine-grid">
+        <a href="vitrine-1.html" class="vitrine-card wide">
+          <h2>Vitrine 1</h2>
+          <p>Kurzbeschreibung … Platzhalter</p>
+        </a>
+    
+        <a href="vitrine-2.html" class="vitrine-card half">
+          <h2>Vitrine 2</h2>
+          <p>Kurzbeschreibung … Platzhalter</p>
+        </a>
+
+        <a href="vitrine-3.html" class="vitrine-card half"> 
+          <h2>Vitrine 3</h2>
+          <p>Kurzbeschreibung … Platzhalter</p>
+        </a>
+      </div>
+    </section>
+      
+  </main>
+    
   </body>
 </html>

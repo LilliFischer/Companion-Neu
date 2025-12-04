@@ -1,0 +1,12 @@
+body {
+    /* Dreht das gesamte Body-Element um 180 Grad */
+    transform: rotate(180deg);
+    /* Setzt den Ursprung der Transformation in die Mitte */
+    transform-origin: center center;
+    /* Optional: Fügt eine weiche Animation hinzu */
+    transition: transform 0.5s ease;
+    /* Verhindert, dass die gedrehte Seite abgeschnitten wird, falls sie zu breit ist */
+    width: 100vw; 
+    height: 100vh;
+    overflow-x: hidden;
+}

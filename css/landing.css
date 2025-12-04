@@ -1,0 +1,154 @@
+/* Definiert die Animation: Gleiten und Einblenden */
+@keyframes slideInTitle {
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Versteckt den Titel initial */
+.initial-hidden {
+    opacity: 0;
+}
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(30px); 
+    transition: opacity 1s ease-out, transform 1s ease-out; 
+}
+
+.scroll-visible {
+    opacity: 1;
+    transform: translateY(0); 
+}
+
+/* --- NEU: Scroll-Snapping für den Seiten-Effekt --- */
+
+/* Der Hauptinhalt wird der Scroll-Container */
+main {
+    scroll-snap-type: y mandatory; /* Erzwingt das Snapping entlang der Y-Achse */
+    height: 100vh; /* Nimmt die volle Höhe des Viewports ein */
+    overflow-y: scroll; /* Macht den Hauptinhalt scrollbar */
+    /* Versteckt die Standard-Scrollbar, um den Wisch-Effekt zu betonen (optional) */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+/* Für Webkit-Browser (Chrome, Safari) */
+main::-webkit-scrollbar {
+    display: none;
+}
+
+/* Jede "Stage" wird zu einem Snap-Punkt und muss volle Viewport-Höhe haben */
+#stage1, 
+#stage2, 
+#stage3 {
+    height: 100vh; /* Muss volle Viewporthöhe haben */
+    scroll-snap-align: start; /* Richtet den Anfang der Sektion am Viewport-Anfang aus */
+    flex-shrink: 0; /* Verhindert, dass die Stages schrumpfen */
+    /* Wir setzen die stages auf Flex, um den Inhalt vertikal zentrieren zu können */
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+/* --- Ende Scroll-Snapping --- */
+
+
+/* Wendet die Animation nach dem Laden an */
+#main-header {
+    animation: slideInTitle 1s ease-out 0.5s forwards; /* 0.5s delay */
+    text-align: center; /* Zentrierung beibehalten */
+    /* Ursprüngliches Padding wird beibehalten, aber es ist nun Teil des 100vh stage1 */
+}
+
+/* Stage 1 sollte den größten Teil des Viewports einnehmen (wird jetzt durch Stage-Definition oben gesteuert) */
+/* #stage1 wird durch die allgemeine Stage-Regel oben auf 100vh gesetzt */
+
+
+/* Stage 2 muss Platz zum Scrollen bieten (wird jetzt durch Stage-Definition oben gesteuert) */
+/* Ursprüngliche Display-Flex-Eigenschaften für Stage 2 werden durch die allgemeine Stage-Regel oben übernommen */
+#stage2 {
+    padding: 0 15px; /* Nur links/rechts Padding beibehalten */
+}
+
+/* Stage 3 ist die Vitrinen-Übersicht */
+/* Höhe und Padding werden durch die allgemeine Stage-Regel oben gesteuert */
+#stage3 {
+    /* padding-top und padding-bottom werden entfernt, um 100vh zu nutzen */
+}
+
+/* Das Erklärungselement (Stage 2) soll leicht von unten "hereinfliegen" */
+#explanation-box {
+    text-align: center;
+    max-width: 600px;
+}
+
+
+/* --- Basis-Layout (Mobile-First) --- */
+.vitrine-grid {
+    display: grid;
+    /* Im Mobile-Modus: Eine Spalte (volle Breite) */
+    grid-template-columns: 1fr; 
+    gap: 15px; /* Abstand zwischen den "Karten" */
+    /* NEU: Fügen Sie das vertikale Padding hier wieder hinzu, da Stage 3 kein Padding mehr hat */
+    padding: 50px 15px; /* Innenabstand für die Ränder */
+    max-height: 100vh; /* Wichtig, damit das Grid den Stage-Container nicht überläuft */
+    overflow-y: auto; /* Erlaubt das Scrollen innerhalb des Grids, falls es zu groß wird */
+}
+
+/* --- Stil für jede einzelne Vitrinen-Karte --- */
+.vitrine-card {
+    display: block; /* Stellt sicher, dass der Link den gesamten Block einnimmt */
+    text-decoration: none;
+    color: inherit;
+    padding: 15px;
+    
+    /* Hintergrundfarben für den Collageneffekt variieren */
+    background-color: #FFC0CB; /* Neon-Pink als Standardhintergrund */
+    border: 3px solid #b96bcd; /* Neon-Cyan als Rahmen */
+    
+    /* Position muss relativ sein, um Z-Index und Rotation zu erlauben */
+    position: relative; 
+    transition: transform 0.3s ease, z-index 0s;
+}
+
+.vitrine-card img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+/* --- Rotation und Überlappung (Der Collage-Effekt) --- */
+
+/* Beispiel-Anpassungen für einzelne Vitrinen */
+.vitrine-card:nth-child(1) {
+    /* Dreht die erste Karte leicht nach links und zieht sie nach oben/links */
+    transform: rotate(-2deg);
+    margin: 20px -5px 0 5px;
+    z-index: 3; /* Soll über den anderen liegen */
+}
+
+.vitrine-card:nth-child(2) {
+    /* Dreht die zweite Karte leicht nach rechts und lässt sie überlappen */
+    transform: rotate(1.5deg);
+    margin-top: -30px; /* Zieht die Karte 30px nach oben, um V1 zu überlappen */
+    z-index: 2;
+}
+
+.vitrine-card:nth-child(3) {
+    transform: rotate(-0.5deg);
+    margin-top: -5px;
+    margin-left: -10px;
+    z-index: 4; /* Soll über V1 und V2 liegen */
+}
+
+/* Variieren Sie diese Werte für jede Vitrine, um einen "chaotischen" Look zu erzielen! */
+
+/* --- Interaktiver Effekt --- */
+.vitrine-card:hover, 
+.vitrine-card:focus {
+    /* 1. In den Vordergrund springen */
+    z-index: 10; 
+    
+    /* 2. Geraderichten (Rotation auf 0 setzen) und leicht vergrößern */
+    transform: rotate(0deg) scale(1.03); 
+    
+    /* 3. Ein pulsierender Rahmen könnte den queeren Vibe verstärken */
+    box-shadow: 0 0 10px #b96bcd(255, 0, 255, 0.8), 0 0 20px rgba(0, 255, 255, 0.5);
+}

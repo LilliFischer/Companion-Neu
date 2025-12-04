@@ -1,18 +1,71 @@
-/* w3schools */
 
 
+/* --- GLOBALE STYLES (Optional: Für den Mobile-First-Look) --- */
+body {
+    font-family: sans-serif; /* Platzhalter */
+    margin: 0;
+    text-align: center;
+}
 
-/* Element Deklaration */
+/* --- 1. Fixierung und Positionierung der Navigation --- */
+#permanent-nav {
+    position: fixed; /* Navigation bleibt beim Scrollen an Ort und Stelle */
+    top: 15px;       /* Abstand vom oberen Rand */
+    left: 15px;      /* Abstand vom linken Rand */
+    z-index: 1000;   /* Sicherstellen, dass die Nav über allen anderen Elementen liegt */
+    display: flex;   /* Für vertikale Anordnung */
+    flex-direction: column;
+    gap: 10px;       /* Kleiner Abstand zwischen den Kreisen */
+}
 
 
+/* --- 2. Styling der Kreise --- */
+.nav-circle {
+    display: flex;
+    justify-content: center; /* Icon zentrieren */
+    align-items: center;     /* Icon zentrieren */
+    width: 40px;             /* Kreisgröße */
+    height: 40px;            /* Kreisgröße */
+    border-radius: 50%;      /* Macht das Element kreisförmig */
+    text-decoration: none;   /* Entfernt die Link-Unterstreichung */
+    border: 2px solid #b96bcd; /* Neon-Pink als Randfarbe */
+    background-color: transparent;
+
+    /* Standard-Zustand: Rand, keine Füllung */
+    border: 2px solid #b96bcd; /* Neon-Pink als Akzentfarbe für den Rand */
+    background-color: transparent; /* Keine Füllung */
+    transition: background-color 0.2s ease, transform 0.1s ease; /* Übergänge für den Hover-Effekt */
+
+}
+
+/* Icons innerhalb der Kreise */
+.nav-circle .icon {
+    width: 24px;   /* Größe des SVG-Icons */
+    height: 24px;
+    /* Der Umriss des Icons erbt die 'color' (Textfarbe) des Links */
+    color: #b96bcd; /* Icon-Farbe: Neon-Pink (Standard-Zustand) */
+}
 
 
-/* Klassen Deklarationen */
+/* --- 3. Interaktion und Aktiver Zustand --- */
 
+/* Hover-Effekt (Kurze Füllung beim Berühren) */
+.nav-circle:hover {
+    background-color: #b96bcd; /* Füllt den Kreis beim Hover mit Neon-Pink */
+    }
 
+.nav-circle:hover .icon {
+    color: white; /* Macht das Icon weiß beim Hover */
+}
 
+/* AKTIVER ZUSTAND (Wenn man sich auf der Seite befindet) */
+.nav-circle.active {
+    background-color: #b96bcd; /* Bleibt dauerhaft gefüllt (Neon-Pink) */
+}
 
+.nav-circle.active .icon {
+    color: white; /* Das Icon bleibt weiß auf dem Pink */
+}
 
-/* Identifier Deklaration */
 
 
