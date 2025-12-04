@@ -38,38 +38,42 @@ main {
 
 /* Jede "Stage" wird zu einem Snap-Punkt und muss volle Viewport-Höhe haben */
 #stage1, 
-#stage2, 
-#stage3 {
-    height: 100vh; /* Muss volle Viewporthöhe haben */
+#stage2 {
+     /* Muss volle Viewporthöhe haben */
     scroll-snap-align: start; /* Richtet den Anfang der Sektion am Viewport-Anfang aus */
     flex-shrink: 0; /* Verhindert, dass die Stages schrumpfen */
     /* Wir setzen die stages auf Flex, um den Inhalt vertikal zentrieren zu können */
     display: flex; 
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    padding-top: 50vh;
 
 }
 /* --- Ende Scroll-Snapping --- */
 
+/* NEUE ÄNDERUNG: Stage 1 bekommt 200vh Höhe und wird der neue Container für Stage 2 Inhalt */
 #stage1 {
-    background-color: #f7f3f9; /* Helles Lavendel/Grau für den Start */
+    height: 140vh; /* NEU: 2 * 100vh für zwei Scroll-Phasen */
+    background-color: #f7f3f9; 
+    /* Wir müssen den Header an den Snap-Punkt *innerhalb* von stage1 anpassen. */
 }
 
+/* WICHTIG: stage2 muss jetzt nach der stage1-Erklärung folgen */
+/* Wir entfernen stage2 aus der Snap-Logik, damit der Sprung dorthin durch stage1 gesteuert wird */
 #stage2 {
-    background-color: #ffe0f0; /* Sanftes Rosa/Pink für die Erklärung */
+    height: 100vh; /* BEHALTEN */
+    padding-top: 50vh; /* Zentriert den Inhalt vertikal */
 }
 
-#stage3 {
-    background-color: #f0fff0; /* Sehr helles Mint/Grün für die Vitrinen-Übersicht */
-    /* Das ist die Farbe, auf der die vitrine-cards liegen */
-}
 
 /* Wendet die Animation nach dem Laden an */
 #main-header {
+    margin-bottom: 400px;
     animation: slideInTitle 1s ease-out 0.5s forwards; /* 0.5s delay */
     text-align: center; /* Zentrierung beibehalten */
     /* Ursprüngliches Padding wird beibehalten, aber es ist nun Teil des 100vh stage1 */
+
 }
 
 /* Stage 1 sollte den größten Teil des Viewports einnehmen (wird jetzt durch Stage-Definition oben gesteuert) */
@@ -78,15 +82,10 @@ main {
 
 /* Stage 2 muss Platz zum Scrollen bieten (wird jetzt durch Stage-Definition oben gesteuert) */
 /* Ursprüngliche Display-Flex-Eigenschaften für Stage 2 werden durch die allgemeine Stage-Regel oben übernommen */
-#stage2 {
-    padding: 0 15px; /* Nur links/rechts Padding beibehalten */
-}
+
 
 /* Stage 3 ist die Vitrinen-Übersicht */
 /* Höhe und Padding werden durch die allgemeine Stage-Regel oben gesteuert */
-#stage3 {
-    /* padding-top und padding-bottom werden entfernt, um 100vh zu nutzen */
-}
 
 /* Das Erklärungselement (Stage 2) soll leicht von unten "hereinfliegen" */
 #explanation-box {
