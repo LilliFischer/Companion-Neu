@@ -3,11 +3,22 @@
     0% { opacity: 0; transform: translateY(50px); }
     100% { opacity: 1; transform: translateY(0); }
 }
+/* Wendet die Animation nach dem Laden an */
+#main-header {
+    margin-bottom: 400px;
+    text-align: center; /* Zentrierung beibehalten */
+    /* Ursprüngliches Padding wird beibehalten, aber es ist nun Teil des 100vh stage1 */
 
-/* Versteckt den Titel initial */
-.initial-hidden {
-    opacity: 0;
 }
+/* Style for the delayed element */
+.delayed-appearance {
+    opacity: 0; /* Initially hidden */
+    animation: slideInTitle 1s ease-out forwards; /* 2s delay */
+    animation-delay: var(--delay, 0s); /* Verzögerung über CSS-Variable */
+    margin-top: 10px; /* Abstand zwischen den Zeilen */
+    
+}
+
 .scroll-hidden {
     opacity: 0;
     transform: translateY(30px); 
@@ -47,7 +58,7 @@ main {
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 50vh;
+    padding-top: 40vh;
 
 }
 /* --- Ende Scroll-Snapping --- */
@@ -64,16 +75,6 @@ main {
 #stage2 {
     height: 100vh; /* BEHALTEN */
     padding-top: 50vh; /* Zentriert den Inhalt vertikal */
-}
-
-
-/* Wendet die Animation nach dem Laden an */
-#main-header {
-    margin-bottom: 400px;
-    animation: slideInTitle 1s ease-out 0.5s forwards; /* 0.5s delay */
-    text-align: center; /* Zentrierung beibehalten */
-    /* Ursprüngliches Padding wird beibehalten, aber es ist nun Teil des 100vh stage1 */
-
 }
 
 /* Stage 1 sollte den größten Teil des Viewports einnehmen (wird jetzt durch Stage-Definition oben gesteuert) */

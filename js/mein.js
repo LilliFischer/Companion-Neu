@@ -1,10 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+    
 
     const mainElement = document.querySelector('main');
     const hiddenElements = document.querySelectorAll('.scroll-hidden');
     
     const stage1Element = document.getElementById('stage1');
     const explanationBox = document.getElementById('explanation-box');
+
+    const subtitleElement = document.querySelector('.delayed-appearance');
+ 
 
     function checkVisibility() {
         const scrollPosition = mainElement.scrollTop; 
@@ -26,21 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
-        // --- LOGIK FÜR ANDERE ELEMENTE (STAGE 3) ---
-        
-        // Wenn Stage 3 in den Viewport kommt (z.B. nach 150% der Scrollhöhe), 
-        // soll es auch soft eingeblendet werden.
-        const vitrineTriggerPoint = stage1Element.offsetTop + mainHeight * 1.5;
-
-        hiddenElements.forEach(element => {
-            if (element.id !== 'explanation-box') { 
-                if (scrollPosition > vitrineTriggerPoint) { 
-                    element.classList.add('scroll-visible');
-                } else {
-                    element.classList.remove('scroll-visible');
-                }
-            }
-        });
+       
     }
 
     // Event Listener auf das <main> Element anwenden
