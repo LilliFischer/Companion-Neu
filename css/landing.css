@@ -1,121 +1,110 @@
-/* Header Slide-In Animation */
+
 @keyframes slideInTitle {
-    0% { opacity: 0; transform: translateY(50px); } /* Start unterhalb */
-    100% { opacity: 1; transform: translateY(0); } /* Endposition */
-}
-
-/* Delay für Untertitel*/
-.delayed-appearance {
-    opacity: 0; 
-    animation: slideInTitle 1s ease-out forwards; 
-    animation-delay: var(--delay, 0s); 
-    margin-top: 10px; /* Abstand zwischen den Zeilen */
+    0% { opacity: 0; transform: translateY(50px); }
+    100% { opacity: 1; transform: translateY(0); }
+    }
     
-}
-
-/* Header */
-#main-header {
+    .delayed-appearance {
+    opacity: 0;
+    animation: slideInTitle 1s ease-out forwards;
+    animation-delay: var(--delay, 0s);
+    margin-top: 10px;
+    }
+    
+    #main-header {
     margin-bottom: 400px;
     text-align: center;
-}
-
-/* Scrollsnapping für Seiteneffekt */
-main {
-    scroll-snap-type: y mandatory; /* Snapping entlang der Y-Achse */
-    height: 100vh; 
-    overflow-y: scroll; 
+    }
+    
+    main {
+    scroll-snap-type: y mandatory;
+    height: 100vh;
+    overflow-y: scroll;
     scroll-behavior: smooth;
-    transition: background-color 0.5s ease-in-out;
-    /* versteckt die Scrollbar */
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
-}
-
-/* Allgemeine Stage-Regeln */
-#stage1, 
-#stage2 {
-    scroll-snap-align: start; 
-    flex-shrink: 0;  
-    display: flex; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    }
+    
+    #stage1, #stage2 {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+    display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     padding-top: 40vh;
-
-}
-
-/* spezifische Stage anpassungen */
+    }
+    
 #stage1 {
-    height: 140vh; 
-    background-color: #f7f3f9; 
+height: 140vh;
+background-color: #f7f3f9;
 }
 
-/* spezifische Stage anpassungen */
 #stage2 {
-    height: 100vh; 
-    padding-top: 0; /* Entferne oder reduziere das Padding */
-    margin-top: 0; /* Entferne oder reduziere das Margin */
-
-    
-
+height: 100vh;
+padding-top: 0;
+margin-top: 0;
+position: relative;
 }
 
-/* --- 3. Vitrinen-Grid als SCROLL-ELEMENT (Snap Scrolling für Karten) --- */
-
+/* --- GRID MIT 3D EFFEKT --- */
 .vitrine-grid {
-    /* Das Grid wird zum SCROLL-CONTAINER */
-    height: 80vh; /* Höhe für das Scroll-Fenster */
-    width: 100%; 
-    max-width: 350px; 
-
-    display: flex; /* Flexbox für vertikales Layout */
-    flex-direction: column;
-    gap: 30px; /* Abstand zwischen den Karten */
-
-    /* Scrollen erlauben und Snapping für die Karten aktivieren */
-    overflow-y: scroll; 
-    scroll-snap-type: y mandatory; 
-    
-    padding: 10px 0; /* Padding oben/unten für den Snap-Effekt */
-    padding-top: 10vh;
-    /* Scrollbar verstecken */
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+height: 80vh;
+width: 100%;
+max-width: 350px;
+display: flex;
+flex-direction: column;
+gap: 30px;
+overflow-y: scroll;
+scroll-snap-type: y mandatory;
+padding: 10px 0;
+padding-top: 10vh;
+-ms-overflow-style: none;
+scrollbar-width: none;
+perspective: 1000px; /* 3D Effekt */
 }
 
-/* Styling der einzelnen Karten */
 .vitrine-card {
-    display: block; 
-    text-decoration: none;
-    color: inherit;
-    padding: 15px;
-    
-    background-color: #f7f3f9; 
-    border: 3px solid #b96bcd; 
-    
-    /* Die Karten sind die Snap-Punkte */
-    scroll-snap-align: center; /* Snappt die Karte zur Mitte des Containers */
-    
-    /* Höhe der Karte definieren */
-    height: 100px; /* Nimmt die Hälfte des 80vh Containers ein */
-    flex-shrink: 0; /* Verhindert, dass Karten schrumpfen */
-    
-    /* Vorbereitung für JS-Transformation */
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    transform: scale(0.8);
-    
-    /* Collage-Effekt entfernen, da er mit dem Zentriereffekt kämpft */
-    margin: 0 !important;
-    transform: rotate(0deg) !important;
-    z-index: auto !important;
+display: block;
+text-decoration: none;
+color: inherit;
+padding: 15px;
+background-color: #f7f3f9;
+border: 3px solid #b96bcd;
+scroll-snap-align: center;
+height: 100px;
+flex-shrink: 0;
+transition: transform 0.3s ease, box-shadow 0.3s ease;
+transform-style: preserve-3d;
+transform: scale(0.8);
 }
 
+/* Inhalt getrennt: Standard + Detailmodus */
+.inner-card {}
 
-/* Hover-Effekt (Ohne Rotation und ohne Margin-Konflikte) */
-.vitrine-card:hover, 
+.detail-card {
+display: none;
+font-size: 1.2em;
+text-align: center;
+padding-top: 10px;
+}
+
+.vitrine-card.active .inner-card {
+display: none;
+}
+
+.vitrine-card.active .detail-card {
+display: block;
+}
+
+.vitrine-card:hover,
 .vitrine-card:focus {
-    z-index: 10; 
-    transform: scale(1.05); /* Leichte Vergrößerung beim Hover */
-    /* Korrigierter Box-Shadow */
-    box-shadow: 0 0 10px rgba(185, 107, 205, 0.8), 0 0 20px rgba(224, 158, 233, 0.5);
+z-index: 10;
+transform: scale(1.05);
+box-shadow: 0 0 10px rgba(185, 107, 205, 0.8), 0 0 20px rgba(224, 158, 233, 0.5);
+}
+
+/* Overlay abgeschaltet */
+#card-detail-overlay {
+display: none !important;
 }
