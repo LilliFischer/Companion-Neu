@@ -1,44 +1,49 @@
+
 document.addEventListener("DOMContentLoaded", () => {
     
     const mainElement = document.querySelector('main');
     const vitrineGrid = document.querySelector('.vitrine-grid');
+    const scrollIndicator = document.getElementById('scroll-indicator'); // Der Pfeil-Indikator
     
     // --- Initialisierung und Klonen ---
     
-    // Originale Karten vor dem Klonen sammeln
     let vitrineCards = Array.from(document.querySelectorAll('.vitrine-card'));
-    const originalCardCount = vitrineCards.length; // WICHTIG: Anzahl der Originalkarten
+    const originalCardCount = vitrineCards.length;
 
     // Speichert den Originalinhalt jeder Karte (für Inhaltsaustausch)
     const originalCardContents = {}; 
     vitrineCards.forEach(card => {
-        originalCardContents[card.getAttribute('data-index')] = card.innerHTML;
+        originalCardContents[card.getAttribute('data-index')] = card.querySelector('.inner-card').innerHTML;
     });
 
     // Konstanten für Skalierung und Trigger
     const mainHeight = mainElement.clientHeight; 
-    const VITRINE_TRIGGER = 0.9;
+    
+    // Trigger für Stage 2 Sichtbarkeit (Grid beginnt sichtbar zu werden)
+    const VITRINE_TRIGGER = 0.9; 
+    // Trigger für das Ausblenden des Pfeils (Früher als das Grid)
+    const INDICATOR_HIDE_TRIGGER = 0.8; 
+    
     const maxScale = 1.0;
     const minScale = 0.8;
-    const maxDepth = -50; // Für den 3D-Effekt
+    const maxDepth = -50; 
     
     let lastCenterIndex = null;
 
-    // LOOP CAROUSEL: Dupliziere Karten (Set 1 und Set 3 sind Kopien)
+    // LOOP CAROUSEL: Dupliziere Karten
     const cloneTop = vitrineCards.map(c => c.cloneNode(true));
     const cloneBottom = vitrineCards.map(c => c.cloneNode(true));
 
     cloneTop.forEach(c => vitrineGrid.insertBefore(c, vitrineGrid.firstChild));
     cloneBottom.forEach(c => vitrineGrid.appendChild(c));
 
-    // Liste ALLER Karten aktualisieren (Original + 2 Kopien)
+    // Liste ALLER Karten aktualisieren
     vitrineCards = Array.from(document.querySelectorAll('.vitrine-card'));
 
     // --- Berechnung der Einzelhöhe (für Looping und Zufallsstart) ---
     
     const cardHeight = vitrineCards[0].clientHeight;
     const gap = 30; // Aus landing.css
-    
     const cardHeightWithGap = cardHeight + gap; 
     const singleSetHeight = originalCardCount * cardHeightWithGap; 
     
@@ -47,18 +52,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // --- FUNKTION: ZUFÄLLIGER STARTPUNKT BERECHNEN ---
     // ==========================================================
     
-    // 1. Zufälligen Index auswählen
     const randomStartIndex = Math.floor(Math.random() * originalCardCount);
-
-    // 2. Berechnung der Scroll-Position: 
-    // Starte beim Beginn der originalen Reihe (singleSetHeight)
     const scrollOffsetToRandomCard = randomStartIndex * cardHeightWithGap;
     
-    // Offset, um die zufällige Karte VISUELL zu zentrieren
-    // (Container-Mitte - halbe Kartenhöhe)
     const gridCenterOffset = (vitrineGrid.clientHeight / 2) - (cardHeight / 2);
     
-    // Die finale Scroll-Position
     const initialScrollPosition = singleSetHeight + scrollOffsetToRandomCard - gridCenterOffset;
 
     // Setze die Scroll-Position
@@ -70,39 +68,47 @@ document.addEventListener("DOMContentLoaded", () => {
     function maintainLoop() {
         const scroll = vitrineGrid.scrollTop;
         
-        // Wenn man in den oberen geklonten Bereich scrollt (unterhalb des Originalsets)
         if (scroll < singleSetHeight) {
-            // Springe zum Beginn des zweiten Kopie-Sets (dem unteren Klon-Satz)
             vitrineGrid.scrollTop = scroll + singleSetHeight; 
-            
-        // Wenn man in den unteren geklonten Bereich scrollt (ab Beginn des zweiten Originalsets)
-        } else if (scroll >= singleSetHeight * 2) {
-            // Springe zurück zum Beginn des Original-Sets
+        } 
+        else if (scroll >= singleSetHeight * 2) {
             vitrineGrid.scrollTop = scroll - singleSetHeight;
         }
-        
-        // Führe die Highlight-Funktion nach der Positionierung aus
-        highlightCenterCard(); 
     }
 
-    // --- FUNKTION: STAGE SICHTBARKEIT ---
+    // --- FUNKTION: STAGE SICHTBARKEIT & PFEIL ---
 
     function checkVisibility() {
         const scrollPosition = mainElement.scrollTop; 
-    
-        if (scrollPosition >= mainHeight * VITRINE_TRIGGER) { 
-            vitrineGrid.classList.add('scroll-visible');
-        } else {
-            vitrineGrid.classList.remove('scroll-visible');
+        const vitrineGridElement = document.querySelector(".vitrine-grid");
+
+        // 1. SCROLL-INDIKATOR (Pfeil) steuern
+        if (scrollIndicator) {
+            // KORRIGIERT: Nutzt INDICATOR_HIDE_TRIGGER (0.75)
+            if (scrollPosition < mainHeight * INDICATOR_HIDE_TRIGGER) { 
+                scrollIndicator.classList.add('active');
+            } else {
+                scrollIndicator.classList.remove('active');
+            }
+        }
+        
+        // 2. VITRINEN-GRID SICHTBARKEIT (Nutzt VITRINE_TRIGGER 0.9)
+        if (vitrineGridElement) {
+            if (scrollPosition >= mainHeight * VITRINE_TRIGGER) { 
+                vitrineGridElement.classList.add('scroll-visible');
+            } else {
+                vitrineGridElement.classList.remove('scroll-visible');
+            }
         }
     }
-
-    // --- FUNKTION: ZENTRIERUNG UND INHALT ---
+    
+    // --- FUNKTION: ZENTRIERUNG UND INHALT (KERNLOGIK) ---
 
     function highlightCenterCard() {
         const gridCenterY = vitrineGrid.scrollTop + vitrineGrid.clientHeight / 2;
-        let currentCenterCard = null; // Karte, die am nächsten zur Mitte ist
+        let currentCenterCard = null; 
 
+        // 1. Skalierung und zentrierteste Karte finden
         vitrineCards.forEach(card => {
             const cardCenterY = card.offsetTop + card.clientHeight / 2;
             const distance = Math.abs(gridCenterY - cardCenterY);
@@ -114,10 +120,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 const scaleDiff = maxScale - minScale;
                 scale = maxScale - (distance / threshold) * scaleDiff;
 
-                // Tiefe basierend auf Abstand zur Mitte
                 const depth = (distance / threshold) * maxDepth;
 
-                // Anwendung von Skalierung und 3D-Tiefe
                 card.style.transform = `scale(${scale}) translateZ(${depth}px)`;
                 card.style.zIndex = 10;
 
@@ -125,45 +129,75 @@ document.addEventListener("DOMContentLoaded", () => {
                     currentCenterCard = { card, distance };
                 }
             } else {
-                // Karten außerhalb des Schwellenwerts
                 card.style.transform = `scale(${minScale}) translateZ(0px)`;
                 card.style.zIndex = 1;
             }
-            
-            // --- INHALT WIEDERHERSTELLEN ---
-            if (!currentCenterCard || card !== currentCenterCard.card) {
-                if (card.classList.contains("active")) {
-                    const cardIndex = card.getAttribute('data-index');
-                    card.classList.remove("active");
-                    card.innerHTML = originalCardContents[cardIndex];
+        });
+        
+        
+        // 2. AGGRESSIVES RESET: Alle Nicht-Zentrierten zurücksetzen
+        vitrineCards.forEach(card => {
+            const isCurrentlyCentered = currentCenterCard && card === currentCenterCard.card;
+
+            if (!isCurrentlyCentered && card.classList.contains("active")) {
+                const cardIndex = card.getAttribute('data-index');
+                const innerCard = card.querySelector('.inner-card');
+
+                card.classList.remove("active");
+                
+                // Setzt den gespeicherten Originalinhalt zurück
+                if (innerCard) {
+                    innerCard.innerHTML = originalCardContents[cardIndex];
                 }
             }
         });
 
-        // --- INHALT AUSTAUSCHEN (für die zentrierte Karte) ---
+
+        // 3. INHALT AUSTAUSCHEN und Aktivierung
         if (currentCenterCard) {
             const card = currentCenterCard.card;
             const index = card.getAttribute('data-index');
 
-            if (index !== lastCenterIndex || !card.classList.contains("active")) {
-                const txt = card.getAttribute("data-detail-text");
+            if (!card.classList.contains("active")) {
                 
-                // Setze den Detailtext in die aktive Karte
-                card.innerHTML = `<p class="detail-card">${txt}</p>`;
+                const txt = card.getAttribute("data-detail-text");
+                const detailCardElement = card.querySelector(".detail-card");
+
+                // Setze den Detailtext in den detail-card Container
+                if (detailCardElement) {
+                     detailCardElement.innerHTML = `<p>${txt}</p>`;
+                }
+                
                 card.classList.add("active");
                 lastCenterIndex = index;
             }
         }
     }
-
-    // Event Listener für die Stages (auf dem MAIN-Element)
-    mainElement.addEventListener('scroll', checkVisibility);
-
-    // Event Listener für die Zentrierung und INHALT (auf dem GRID-Element)
-    vitrineGrid.addEventListener('scroll', highlightCenterCard);
     
-    // Event Listener für die Loop-Wartung
+    // --- FUNKTION: NACH DEM SCROLL-SNAP AUFRUFEN (Fixiert den Text) ---
+    function handleSnapEnd() {
+        highlightCenterCard();
+    }
+
+    // ---------------------------------------------
+    // EVENTS
+    // ---------------------------------------------
+    mainElement.addEventListener('scroll', checkVisibility);
+    
+    vitrineGrid.addEventListener("scroll", highlightCenterCard);
     vitrineGrid.addEventListener('scroll', maintainLoop);
+
+    // Listener für das Ende des Scrollens (Snap-Position erreicht)
+    if ('onscrollend' in window) {
+        vitrineGrid.addEventListener('scrollend', handleSnapEnd);
+    } else {
+        // Fallback: Timeout-Logik für ältere Browser
+        let scrollTimeout;
+        vitrineGrid.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(handleSnapEnd, 150);
+        });
+    }
 
     // Initialer Start beim Laden der Seite
     checkVisibility();

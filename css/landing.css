@@ -14,6 +14,7 @@
     #main-header {
     margin-bottom: 400px;
     text-align: center;
+    width: 100%;
     }
     
     main {
@@ -23,42 +24,79 @@
     scroll-behavior: smooth;
     -ms-overflow-style: none;
     scrollbar-width: none;
+    text-align: center;
     }
     
-    #stage1, #stage2 {
+  #stage1, #stage2 {
     scroll-snap-align: start;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 40vh;
-    }
+    width: 100%;
+  }
     
 #stage1 {
-height: 140vh;
-background-color: #f7f3f9;
+  height: 130vh;
+  padding-top: 350px;
+  background-color: #f7f3f9;
 }
 
 #stage2 {
-height: 100vh;
-padding-top: 0;
-margin-top: 0;
-position: relative;
+  height: 100vh;
 }
 
+
+/* --- 1. PULSIERENDE ANIMATION DEFINIEREN --- */
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+
+/* --- 2. SCROLL-INDIKATOR STYLES --- */
+
+#scroll-indicator {
+  position: fixed; /* Fixiert den Pfeil im Viewport */
+  bottom: 30px;    /* Abstand vom unteren Rand */
+  left: 47%;      /* Zentriert den Pfeil horizontal */
+  transform: translateX(-50%); /* Horizontal zentrieren */
+  z-index: 999; 
+  color: #b96bcd;
+  
+  opacity: 0; 
+    transition: opacity 0s ease, transform 0.5s ease; /* Fügt schnelle Transition hinzu */
+  }
+
+#scroll-indicator.active {
+  opacity: 1; /* Sichtbar, wenn die Klasse active gesetzt ist */
+  animation: float 1.5s ease-in-out infinite; /* Leichte Auf-Ab-Bewegung */
+}
+
+#scroll-indicator .icon {
+  width: 30px;
+  height: 30px;
+  animation: pulse 1.5s infinite; /* Die pulsierende Animation */
+}
 /* --- GRID MIT 3D EFFEKT --- */
 .vitrine-grid {
-height: 80vh;
+height: 100vh;
 width: 100%;
-max-width: 350px;
+max-width: 300px;
 display: flex;
 flex-direction: column;
 gap: 30px;
 overflow-y: scroll;
 scroll-snap-type: y mandatory;
 padding: 10px 0;
-padding-top: 10vh;
 -ms-overflow-style: none;
 scrollbar-width: none;
 perspective: 1000px; /* 3D Effekt */
@@ -66,13 +104,11 @@ perspective: 1000px; /* 3D Effekt */
 
 .vitrine-card {
 display: block;
+max-width: 100%;
+height: 250px;
 text-decoration: none;
 color: inherit;
-padding: 15px;
-background-color: #f7f3f9;
-border: 3px solid #b96bcd;
 scroll-snap-align: center;
-height: 100px;
 flex-shrink: 0;
 transition: transform 0.3s ease, box-shadow 0.3s ease;
 transform-style: preserve-3d;
@@ -80,31 +116,48 @@ transform: scale(0.8);
 }
 
 /* Inhalt getrennt: Standard + Detailmodus */
-.inner-card {}
+
 
 .detail-card {
 display: none;
 font-size: 1.2em;
 text-align: center;
-padding-top: 10px;
+padding-top: 70px;
 }
 
 .vitrine-card.active .inner-card {
-display: none;
+  display: none;
 }
 
 .vitrine-card.active .detail-card {
-display: block;
+  display: block;
 }
 
-.vitrine-card:hover,
-.vitrine-card:focus {
-z-index: 10;
-transform: scale(1.05);
-box-shadow: 0 0 10px rgba(185, 107, 205, 0.8), 0 0 20px rgba(224, 158, 233, 0.5);
+.vitrine-image:hover {
+  z-index: 10;
+  transform: scale(1.2);
+}
+
+.detail-card:hover {
+  z-index: 10;
+  transform: scale(1.2);
 }
 
 /* Overlay abgeschaltet */
 #card-detail-overlay {
-display: none !important;
+  display: none !important;
+}
+
+.vitrine-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+.vitrine-card .detail-card{
+    height: 200px; /* fix */
+}
+
+.inner-card {
+    height: 100%;
 }
