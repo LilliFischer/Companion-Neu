@@ -40,7 +40,7 @@
 #stage1 {
   height: 130vh;
   padding-top: 350px;
-  background-color: #f7f3f9;
+  background-color: #d6026f14;
 }
 
 #stage2 {
@@ -67,10 +67,10 @@
 #scroll-indicator {
   position: fixed; /* Fixiert den Pfeil im Viewport */
   bottom: 30px;    /* Abstand vom unteren Rand */
-  left: 47%;      /* Zentriert den Pfeil horizontal */
+  left: 49%;      /* Zentriert den Pfeil horizontal */
   transform: translateX(-50%); /* Horizontal zentrieren */
   z-index: 999; 
-  color: #b96bcd;
+  color: #d60270;
   
   opacity: 0; 
     transition: opacity 0s ease, transform 0.5s ease; /* Fügt schnelle Transition hinzu */
