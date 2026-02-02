@@ -1,3 +1,10 @@
+/* 1. Die Schriftart definieren */
+@font-face {
+    font-family: 'QueeringFont';
+    src: url('../assets/fonts/Queering.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* --- GLOBALE STYLES (Optional: Für den Mobile-First-Look) --- */
 body {
@@ -6,7 +13,11 @@ body {
     text-align: center;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' style='fill:%23d60270;font-family:sans-serif;font-size:45px;'><text y='38' x='5'>*</text></svg>") 24 24, auto;
 }
-
+h2 {
+    font-family: 'QueeringFont', sans-serif;
+    font-size: 3em;
+    color: #d60270; 
+}
 a, button, .nav-circle, .vitrine-card {
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' style='fill:%23d60270;font-family:sans-serif;font-size:45px;'><text y='38' x='5'>*</text></svg>") 24 24, auto;
 }

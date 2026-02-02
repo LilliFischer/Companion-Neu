@@ -1,127 +1,87 @@
 <!DOCTYPE html>
-<html>
-    
-  <head>
-    <meta charset="utf-8">
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Companion</title>  
-    <link rel="stylesheet" href="css/meins.css"> 
-    <link rel="stylesheet" href="css/landing.css"> 
-	  <script src="js/mein.js"></script>
-  </head>
-    
-  <body>
-    <nav id="permanent-nav">
-        <a href="index.html" class="nav-circle active">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" 
-                  d="M3 10V22H21V10L12 3L3 10Z"/>
-        </svg>
-        </a>
-        <a href="credits.html" class="nav-circle">
-          <svg class="icon" viewBox="0 0 24 24">
-            <path fill="none" stroke="currentColor" stroke-width="2" 
-                  d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
-        </svg>
-        </a>
-        <a href="" class="nav-circle">
-          <svg class="icon" viewBox="0 0 24 24">
-          <path fill="none" stroke="currentColor" stroke-width="2"  
-            d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 0 1-.923 1.785A5.969 5.969 0 0 0 6 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337Z" />
-          </svg>
-        </a>
-    </nav>
-    
-  <main>
-    
-    <section id="stage1">
-      
-      <header id="main-header">
-        <h1>
-          <l>Dein Companion</l>
-        </h1>
-          <p class="delayed-appearance" style="--delay: 1s;">Acts of Queerness.</p>
-          <p class="delayed-appearance" style="--delay: 2s;">Performance, Räume, Erinnerungen</p>
-      </header>
-      
-      <div>
-        <p>Wische oder scrolle, um die Übersicht</p>
-        <p>der Ausstellungsthemen zu entdecken.</p>
-        <p>Klicke auf die Bilder,</p>
-        <p>um mehr zu erfahren.</p>
-      </div>
-    
-    </section>
+    <title>Your Companion | Coming Soon</title>
+    <link rel="icon" type="image/svg+xml" href="assets/icons/favicon.svg?v=2">
+    <style>
+        :root {
+            --neon-pink: #d60270;
+            --soft-lila: #f7f3f9;
+        }
 
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--soft-lila);
+            color: var(--neon-pink);
+            font-family: sans-serif; /* Hier greift später deine lokale Schrift */
+            text-align: center;
+            overflow: hidden;
+            /* Dein Sternchen-Cursor */
+            cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' style='fill:%23d60270;font-family:sans-serif;font-size:45px;'><text y='38' x='5'>*</text></svg>") 24 24, auto;
+        }
 
-    <section id="stage2">
+        .container {
+            max-width: 600px;
+            padding: 20px;
+        }
 
-      
-     
-      <div class="vitrine-grid scroll-hidden">
+        .star-icon {
+            font-size: 50px;
+            animation: rotate 4s linear infinite;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
 
-        <a href="thema1.html" class="vitrine-card" data-index="1"
-        data-detail-text="Crossdressing">
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
-    
-        <a href="thema2.html" class="vitrine-card" data-index="2"
-        data-detail-text="Queere Looks und Codes">
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
+        h1 {
+            font-size: 3rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
 
-        <a href="thema3.html" class="vitrine-card" data-index="3"
-        data-detail-text="Drag"> 
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-top: 20px;
+            opacity: 0.8;
+        }
 
-        <a href="thema4.html" class="vitrine-card" data-index="4"
-        data-detail-text="Queere Orte in Köln in historischer Perspektive"> 
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
+        .tagline {
+            font-style: italic;
+            margin-top: 40px;
+            font-weight: bold;
+        }
 
-        <a href="thema5.html" class="vitrine-card" data-index="5"
-        data-detail-text="Humor, Widerstand & Trauer"> 
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-        <a href="thema6.html" class="vitrine-card" data-index="6"
-        data-detail-text="Aktuelle queere Kölner Kollektive und Anlaufstellen"> 
-        <div class="inner-card">
-          <img class="vitrine-image" src="assets/images/charlie.png">
-        </div>
-        <div class="detail-card"></div>
-        </a>
+        /* Ein kleiner schwebender Effekt für den Text */
+        .content {
+            animation: float 3s ease-in-out infinite;
+        }
 
-      </div>
-    
-    </section>
-      
-  </main>
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
 
-      
-  
-<div id="scroll-indicator" class="active">
-  <svg viewBox="0 0 24 24" class="icon">
-      <path fill="none" stroke="currentColor" stroke-width="2" 
-            d="M12 5V19M19 12L12 19L5 12"/>
-  </svg>
-</div>
-  
-  </body>
-</html>
+    <div class="container content">
+        <h1>Dein Companion</h1>
+        <p>Acts of Queerness.<br>Performance, Räume, Erinnerungen<br>28.04.2026-01.09.2026</p>
+        
+        <p class="tagline">
+            Hinter den Kulissen wird noch gearbeitet. Wir sind bald für Euch da!
+            <br><br>
